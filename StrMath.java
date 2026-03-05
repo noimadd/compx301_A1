@@ -1,7 +1,7 @@
 public class StrMath {
     public static void main(String[] args) {
-        String num1 = "515";
-        String num2 = "12h3";
+        String num1 = "891234";
+        String num2 = "567891";
         String sum = strAdd(num1, num2);
         System.out.println("Sum: " + sum);
     }
@@ -15,7 +15,7 @@ public class StrMath {
      */
     public static String strAdd(String num1, String num2) {
         StringBuilder result = new StringBuilder(); // builds the result string
-        int carry = 0; // carry for addition
+        String carry = "0"; // carry for addition
         int maxLength = Math.max(num1.length(), num2.length()); // finds longest number
 
         // replaces non numeric characters with zero
@@ -26,10 +26,31 @@ public class StrMath {
         num1 = String.format("%" + maxLength + "s", num1).replace(' ', '0');
         num2 = String.format("%" + maxLength + "s", num2).replace(' ', '0');
 
-        System.out.println("Padded num1: " + num1);
-        System.out.println("Padded num2: " + num2);
+        for (int i = maxLength - 1; i >= 0; i--) {
+            int digit1 = charToInt(num1.charAt(i)); // converts char to int
+            int digit2 = charToInt(num2.charAt(i)); // converts char to int
 
-        
+            String sum = sumTable[digit1][digit2]; // gets sum from lookup table
+
+            // adds carry if exists
+            String newNum = String.valueOf(sum.charAt(sum.length() - 1));
+            if (carry.equals("1")) {
+                newNum = sumTable[charToInt(newNum.charAt(0))][1];
+            }
+
+            // updates carry for next iteration
+            if (sum.length() > 1) {
+                carry = "1";
+            } else {
+                carry = "0";
+            }
+
+            result.append(newNum);
+        }
+
+        if (charToInt(carry.charAt(0)) > 0) {
+            result.append(carry); // appends final carry if exists
+        }
         
 
         return result.reverse().toString();
@@ -58,7 +79,7 @@ public class StrMath {
      * @param c the character to convert
      * @return the integer value of the character, or 0 if it's not a numeric character
      */
-    private static final int charToInt(char c) {
+    private static int charToInt(char c) {
         if (c == '0') return 0;
         if (c == '1') return 1;
         if (c == '2') return 2;

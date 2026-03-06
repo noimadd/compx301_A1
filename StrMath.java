@@ -59,10 +59,14 @@ public class StrMath {
 
 
     /**
-     * a lookup table for the sum of two single digit numbers
+     * lookup table for sums of single digits stored as strings
      */
     private static final Map<String, String> sumTable = initSumTable();
 
+    /**
+     * initializes the lookup table for sums of single digits
+     * @return the lookup table
+     */
     private static Map<String, String> initSumTable() {
         Map<String, String> table = new java.util.HashMap<>();
         for (int i = 0; i <= 9; i++) {

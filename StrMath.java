@@ -4,7 +4,7 @@ public class StrMath {
     public static void main(String[] args) {
         String num1 = "9999";
         String num2 = "1111";
-        String sum = strAdd(num1, num2);
+        String sum = StrAdd(num1, num2);
         System.out.println("Sum: " + sum);
     }
 
@@ -15,7 +15,7 @@ public class StrMath {
      * @param num2 the second numeric string
      * @return the sum of num1 and num2 as a string
      */
-    public static String strAdd(String num1, String num2) {
+    public static String StrAdd(String num1, String num2) {
         StringBuilder result = new StringBuilder(); // builds the result string
         String carry = "0"; // carry for addition
         int maxLength = Math.max(num1.length(), num2.length()); // finds longest number

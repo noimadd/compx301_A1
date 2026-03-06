@@ -10,8 +10,8 @@ public class StrMath {
         String sum = StrAdd(num1, num2);
         System.out.println("Sum: " + sum);
 
-        num1 = "12345";
-        num2 = "67890";
+        num1 = "9";
+        num2 = "9";
         String mult = StrMult(num1, num2);
         System.out.println("Product: " + mult);
     }
@@ -24,13 +24,13 @@ public class StrMath {
      * @return the sum of num1 and num2 as a string
      */
     public static String StrAdd(String num1, String num2) {
-        StringBuilder result = new StringBuilder(); // builds the result string
-        String carry = "0"; // carry for addition
+        StringBuilder result = new StringBuilder();
+        String carry = "0";
         int maxLength = Math.max(num1.length(), num2.length()); // finds longest number
 
         // replaces non numeric characters with zero
-        num1 = num1.replaceAll("[^0-9]", "0");
-        num2 = num2.replaceAll("[^0-9]", "0");
+        num1 = stringToInt(num1);
+        num2 = stringToInt(num2);
 
         // makes both numbers = length
         num1 = String.format("%" + maxLength + "s", num1).replace(' ', '0');
@@ -38,8 +38,8 @@ public class StrMath {
 
         // adds digits from right to left
         for (int i = maxLength - 1; i >= 0; i--) {
-            int digit1 = charToInt(num1.charAt(i)); // converts char to int
-            int digit2 = charToInt(num2.charAt(i)); // converts char to int
+            int digit1 = charToInt(num1.charAt(i));
+            int digit2 = charToInt(num2.charAt(i));
 
             String sum = sumTable.get(digit1 + "," + digit2); // gets sum from lookup table
             String newNum = String.valueOf(sum.charAt(sum.length() - 1)); // last digit of sum
@@ -59,7 +59,7 @@ public class StrMath {
         }
 
         // adds final carry if exists
-        if (charToInt(carry.charAt(0)) > 0) { result.append(carry); }
+        if (carry.equals("1")) result.append(carry);
         
 
         return result.reverse().toString();
@@ -67,8 +67,24 @@ public class StrMath {
 
 
     public static String StrMult(String num1, String num2) {
+        StringBuilder result = new StringBuilder();
+        String carry = "0";
+        
+        num1 = stringToInt(num1);
+        num2 = stringToInt(num2);
 
-        return "";
+        for (int i = num1.length() - 1; i >= 0; i--) {
+            for (int j = num2.length() - 1; j >= 0; j--) {
+                int digit1 = charToInt(num1.charAt(i));
+                int digit2 = charToInt(num2.charAt(j));
+
+                String product = multTable.get(digit1 + "," + digit2);
+
+                result.append(product);
+            }
+        }
+
+        return result.toString();
     }
 
     /**
@@ -117,5 +133,12 @@ public class StrMath {
         if (c == '8') return 8;
         if (c == '9') return 9;
         return 0;
+    }
+
+    /**
+     * replaces all non numeric chars with a '0'
+     */
+    private static String stringToInt(String s) {
+        return s.replaceAll("[^0-9]", "0");
     }
 }

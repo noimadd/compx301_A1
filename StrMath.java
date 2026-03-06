@@ -1,7 +1,9 @@
+import java.util.Map;
+
 public class StrMath {
     public static void main(String[] args) {
-        String num1 = "891234";
-        String num2 = "567891";
+        String num1 = "9999";
+        String num2 = "1";
         String sum = strAdd(num1, num2);
         System.out.println("Sum: " + sum);
     }
@@ -26,31 +28,30 @@ public class StrMath {
         num1 = String.format("%" + maxLength + "s", num1).replace(' ', '0');
         num2 = String.format("%" + maxLength + "s", num2).replace(' ', '0');
 
+        // adds digits from right to left
         for (int i = maxLength - 1; i >= 0; i--) {
             int digit1 = charToInt(num1.charAt(i)); // converts char to int
             int digit2 = charToInt(num2.charAt(i)); // converts char to int
 
-            String sum = sumTable[digit1][digit2]; // gets sum from lookup table
+            String sum = sumTable.get(digit1 + "," + digit2); // gets sum from lookup table
+            String newNum = String.valueOf(sum.charAt(sum.length() - 1)); // last digit of sum
 
-            // adds carry if exists
-            String newNum = String.valueOf(sum.charAt(sum.length() - 1));
-            if (carry.equals("1")) {
-                newNum = sumTable[charToInt(newNum.charAt(0))][1];
-            }
+            // carry handler
+            if (carry.equals("1")) { 
+                String withCarry = sumTable.get(charToInt(newNum.charAt(0)) + ",1"); // adds carry to the sum
+                newNum = String.valueOf(withCarry.charAt(withCarry.length() - 1)); // last digit + carry
 
-            // updates carry for next iteration
-            if (sum.length() > 1) {
-                carry = "1";
+                // handles carry for next iteration
+                carry = withCarry.length() > 1 ? "1" : "0";
             } else {
-                carry = "0";
+                carry = sum.length() > 1 ? "1" : "0";
             }
 
             result.append(newNum);
         }
 
-        if (charToInt(carry.charAt(0)) > 0) {
-            result.append(carry); // appends final carry if exists
-        }
+        // adds final carry if exists
+        if (charToInt(carry.charAt(0)) > 0) { result.append(carry); }
         
 
         return result.reverse().toString();
@@ -60,19 +61,18 @@ public class StrMath {
     /**
      * a lookup table for the sum of two single digit numbers
      */
-    private static final String[][] sumTable = {
-        {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"},
-        {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"},
-        {"2", "3", "4", "5", "6", "7", "8", "9", "10", "11"},
-        {"3", "4", "5", "6", "7", "8", "9", "10", "11", "12"},
-        {"4", "5", "6", "7", "8", "9", "10", "11", "12", "13"},
-        {"5", "6", "7", "8", "9", "10", "11", "12", "13", "14"},
-        {"6", "7", "8", "9", "10", "11", "12", "13", "14", "15"},
-        {"7", "8", "9", "10", "11", "12", "13", "14", "15", "16"},
-        {"8", "9", "10", "11", "12", "13", "14", "15", "16", "17"},
-        {"9", "10", "11", "12", "13", "14", "15", "16", "17", "18"}
-    };
+    private static final Map<String, String> sumTable = initSumTable();
 
+    private static Map<String, String> initSumTable() {
+        Map<String, String> table = new java.util.HashMap<>();
+        for (int i = 0; i <= 9; i++) {
+            for (int j = 0; j <= 9; j++) {
+                int sum = i + j;
+                table.put(i + "," + j, String.valueOf(sum));
+            }
+        }
+        return table;
+    }
 
     /**
      * converts a character to an integer without using built in functions

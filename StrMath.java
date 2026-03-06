@@ -81,10 +81,9 @@ public class StrMath {
     /**
      * converts a character to an integer without using built in functions
      * @param c the character to convert
-     * @return the integer value of the character, or 0 if it's not a numeric character
+     * @return the integer value of the character, or 0 by default
      */
     private static int charToInt(char c) {
-        if (c == '0') return 0;
         if (c == '1') return 1;
         if (c == '2') return 2;
         if (c == '3') return 3;
@@ -94,6 +93,6 @@ public class StrMath {
         if (c == '7') return 7;
         if (c == '8') return 8;
         if (c == '9') return 9;
-        return 0; // default for non numeric characters
+        return 0;
     }
 }

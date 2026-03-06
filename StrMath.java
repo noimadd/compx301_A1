@@ -3,7 +3,7 @@ import java.util.Map;
 public class StrMath {
     public static void main(String[] args) {
         String num1 = "9999";
-        String num2 = "1";
+        String num2 = "1111";
         String sum = strAdd(num1, num2);
         System.out.println("Sum: " + sum);
     }
@@ -42,7 +42,7 @@ public class StrMath {
                 newNum = String.valueOf(withCarry.charAt(withCarry.length() - 1)); // last digit + carry
 
                 // handles carry for next iteration
-                carry = withCarry.length() > 1 ? "1" : "0";
+                carry = (sum.length() > 1 || withCarry.length() > 1) ? "1" : "0";
             } else {
                 carry = sum.length() > 1 ? "1" : "0";
             }

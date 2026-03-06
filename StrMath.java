@@ -1,11 +1,19 @@
 import java.util.Map;
 
 public class StrMath {
+    private static final Map<String, String> sumTable = initSumTable();
+    private static final Map<String, String> multTable = initMultTable();
+
     public static void main(String[] args) {
         String num1 = "9999";
         String num2 = "1111";
         String sum = StrAdd(num1, num2);
         System.out.println("Sum: " + sum);
+
+        num1 = "12345";
+        num2 = "67890";
+        String mult = StrMult(num1, num2);
+        System.out.println("Product: " + mult);
     }
 
     /**
@@ -58,10 +66,10 @@ public class StrMath {
     }
 
 
-    /**
-     * lookup table for sums of single digits stored as strings
-     */
-    private static final Map<String, String> sumTable = initSumTable();
+    public static String StrMult(String num1, String num2) {
+
+        return "";
+    }
 
     /**
      * initializes the lookup table for sums of single digits
@@ -73,6 +81,21 @@ public class StrMath {
             for (int j = 0; j <= 9; j++) {
                 int sum = i + j;
                 table.put(i + "," + j, String.valueOf(sum));
+            }
+        }
+        return table;
+    }
+
+    /**
+     * initializes the lookup table for products of single digits
+     * @return the lookup table
+     */
+    private static Map<String, String> initMultTable() {
+        Map<String, String> table = new java.util.HashMap<>();
+        for (int i = 0; i <= 9; i++) {
+            for (int j = 0; j <= 9; j++) {
+                int product = i * j;
+                table.put(i + "," + j, String.valueOf(product));
             }
         }
         return table;

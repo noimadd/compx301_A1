@@ -139,7 +139,7 @@ public class StrMath {
             }
 
             result = StrMult(result, temp);
-            n = StrAdd(String.valueOf(n), "1");
+            n = StrAdd(n, "1");
         }
 
 

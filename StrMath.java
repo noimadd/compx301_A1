@@ -1,5 +1,17 @@
 import java.util.Map;
 
+/**
+ * StrMath is a class that provides methods for performing basic arithmetic including addition, multiplication, and factorial 
+ * on numeric non-negative string inputs. Lookup tables are used for single digit sums and products, carried numbers are handled 
+ * by checking the length of the value and adding the first digit to the next sum if necessary.
+ * 
+ * The class also includes input validation and cleaning to ensure that only valid numeric strings are processed, returning "0"
+ * for all invalid inputs.
+ * 
+ * 
+ * @author Damion Sklenars-Clare - 1638052
+ * @version 1.0 07/03/2026
+ */
 public class StrMath {
     private static final Map<String, String> sumTable = initSumTable(); // init lookup table for single digit sums
     private static final Map<String, String> multTable = initMultTable(); // init lookup table for single digit products
@@ -26,6 +38,11 @@ public class StrMath {
      * iterates through each digit of both strings
      * makes use of sumTable to get the sum of two digits 
      * carries are handled by checking the length of the sum and adding the first digit to the next sum if necessary
+     * 
+     * limitations:
+     *  - only works for non-negative integers
+     *  - in cases of null or invalid "0" is returned
+     * 
      * @param num1 the first numeric string
      * @param num2 the second numeric string
      * @return the sum of num1 and num2 as a string
@@ -79,6 +96,11 @@ public class StrMath {
      * multiplies two numeric strings and returns their product as string
      * iterates through each digit of num1 and multiplies it with each digit of num2
      * multTable is used to acquire the product of single digits, and StrAdd is used to handle sums and carries
+     * 
+     * limitations:
+     *  - only works for non-negative integers
+     *  - in cases of null or invalid "0" is returned
+     * 
      * @param num1 the first numeric string
      * @param num2 the second numeric string
      * @return the product of num1 and num2 as a string
@@ -131,6 +153,11 @@ public class StrMath {
     /**
      * calculates the factorial of a numeric string and returns it as a string
      * iteratively multiplies result by each number from 1 to num using the StrMult method
+     * 
+     * limitations:
+     *  - only works for non-negative integers
+     *  - in cases of null or invalid "0" is returned
+     * 
      * @param num the numeric string to calculate the fact of
      * @return the factorial of num as a string
      */
@@ -209,6 +236,7 @@ public class StrMath {
     }
 
     /**
+     * validates and normalises input before processing
      * cleans the input in 4 steps
      * 1. returns "0" if input is null
      * 2. trims whitespace

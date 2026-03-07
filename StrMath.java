@@ -16,7 +16,7 @@ public class StrMath {
         System.out.println("Product of " + num1 + " * " + num2 + ": " + mult);
 
 
-        String num = "5";
+        String num = "6";
         String fact = StrFact(num);
         System.out.println("Factorial of " + num + ": " + fact);
     }
@@ -106,6 +106,7 @@ public class StrMath {
 
             // adds carry if exists
             if (!carry.equals("0")) temp.append(carry);
+            carry = "0";
 
             // pads temp with zeros based on position on num1
             temp = temp.reverse();
@@ -119,17 +120,21 @@ public class StrMath {
         return result;
     }
 
+    /**
+     * calculates the factorial of a numeric string and returns it as a string
+     * iteratively multiplies result by each number from 1 to num using the StrMult method
+     * @param num the numeric string to calculate the fact of
+     * @return the factorial of num as a string
+     */
     public static String StrFact(String num) {
         String result = "1";
         int n = 1;
-        boolean iterate = true;
 
-        while (iterate) {
+        while (true) {
             String temp = String.valueOf(n);
 
             // checks if n has exceeded num
             if (temp.equals(StrAdd(num, "1"))) {
-                iterate = false;
                 break;
             }
 

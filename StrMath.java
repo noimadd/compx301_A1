@@ -128,10 +128,10 @@ public class StrMath {
      */
     public static String StrFact(String num) {
         String result = "1";
-        int n = 1;
+        String n = "1";
 
         while (true) {
-            String temp = String.valueOf(n);
+            String temp = n;
 
             // checks if n has exceeded num
             if (temp.equals(StrAdd(num, "1"))) {
@@ -139,7 +139,7 @@ public class StrMath {
             }
 
             result = StrMult(result, temp);
-            n = Integer.parseInt(StrAdd(String.valueOf(n), "1"));
+            n = StrAdd(String.valueOf(n), "1");
         }
 
 

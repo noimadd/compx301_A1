@@ -5,18 +5,18 @@ public class StrMath {
     private static final Map<String, String> multTable = initMultTable(); // init lookup table for single digit products
 
     public static void main(String[] args) {
-        String num1 = "9999";
-        String num2 = "1111";
+        String num1 = "0000100";
+        String num2 = "1";
         String sum = StrAdd(num1, num2);
         System.out.println("Sum of " + num1 + " + " + num2 + ": " + sum);
 
-        num1 = "9999";
-        num2 = "1111";
+        num1 = "";
+        num2 = "";
         String mult = StrMult(num1, num2);
         System.out.println("Product of " + num1 + " * " + num2 + ": " + mult);
 
 
-        String num = "6";
+        String num = "";
         String fact = StrFact(num);
         System.out.println("Factorial of " + num + ": " + fact);
     }
@@ -31,12 +31,15 @@ public class StrMath {
      * @return the sum of num1 and num2 as a string
      */
     public static String StrAdd(String num1, String num2) {
+        num1 = cleanInput(num1);
+        num2 = cleanInput(num2);
+
+        if (num1.equals("0")) return num2;
+        if (num2.equals("0")) return num1;
+
         StringBuilder result = new StringBuilder();
         String carry = "0";
         int maxLength = Math.max(num1.length(), num2.length());
-
-        num1 = stringToInt(num1);
-        num2 = stringToInt(num2);
 
         // makes both numbers = length
         num1 = String.format("%" + maxLength + "s", num1).replace(' ', '0');
@@ -84,8 +87,13 @@ public class StrMath {
         String result = "0";
         String carry = "0";
         
-        num1 = stringToInt(num1);
-        num2 = stringToInt(num2);
+        num1 = cleanInput(num1);
+        num2 = cleanInput(num2);
+
+        if (num1.equals("0") || num2.equals("0")) return "0";
+
+        if (num1.equals("1")) return num2;
+        if (num2.equals("1")) return num1;
 
         // multiplies both numbers from right to left
         for (int i = num1.length() - 1; i >= 0; i--) {
@@ -129,6 +137,12 @@ public class StrMath {
     public static String StrFact(String num) {
         String result = "1";
         String n = "1";
+
+        num = cleanInput(num);
+
+        if (num.equals("0") || num.equals("1")) return "1";
+
+        if (num.equals("2")) return "2";
 
         while (true) {
             String temp = n;
@@ -195,10 +209,27 @@ public class StrMath {
     }
 
     /**
-     * checks each character in a string is numeric
-     * replaces all non numeric chars with a '0'
+     * cleans the input in 4 steps
+     * 1. returns "0" if input is null
+     * 2. trims whitespace
+     * 3. returns "0" if input contains non-numeric characters
+     * 4. removes leading zeros and returns "0" on empty input
      */
-    private static String stringToInt(String s) {
-        return s.replaceAll("[^0-9]", "0");
+    private static String cleanInput(String s) {
+        if (s == null) {
+            System.err.println("Input is null, returning 0");
+            return "0";
+        }
+
+        s = s.trim();
+
+        if (!s.matches("[0-9]+")) {
+            System.err.println("Invalid input, returning 0");
+            return "0";
+        }
+
+        s = s.replaceAll("^0+", "");
+        
+        return s.isEmpty() ? "0" : s;
     }
 }

@@ -20,3 +20,8 @@ design and development process without going down unnecessary rabbit holes.
 
 A good example of the debugging usage was when StrAdd was returning 9999 + 11 = 9900. Where after extended attempts to solve this myself, AI identified that when adding the carry to the current sum
 the resulting carry from that operation was not checked
+
+## Repository
+https://github.com/noimadd/compx301_A1
+
+Included to demonstrate iterative development

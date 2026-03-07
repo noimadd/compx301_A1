@@ -8,12 +8,17 @@ public class StrMath {
         String num1 = "9999";
         String num2 = "1111";
         String sum = StrAdd(num1, num2);
-        System.out.println("Sum: " + sum);
+        System.out.println("Sum of " + num1 + " + " + num2 + ": " + sum);
 
         num1 = "9999";
         num2 = "1111";
         String mult = StrMult(num1, num2);
-        System.out.println("Product: " + mult);
+        System.out.println("Product of " + num1 + " * " + num2 + ": " + mult);
+
+
+        String num = "5";
+        String fact = StrFact(num);
+        System.out.println("Factorial of " + num + ": " + fact);
     }
 
     /**
@@ -110,6 +115,28 @@ public class StrMath {
             // updates the current result by adding new product
             result = StrAdd(result, temp.toString());
         }
+
+        return result;
+    }
+
+    public static String StrFact(String num) {
+        String result = "1";
+        int n = 1;
+        boolean iterate = true;
+
+        while (iterate) {
+            String temp = String.valueOf(n);
+
+            // checks if n has exceeded num
+            if (temp.equals(StrAdd(num, "1"))) {
+                iterate = false;
+                break;
+            }
+
+            result = StrMult(result, temp);
+            n = Integer.parseInt(StrAdd(String.valueOf(n), "1"));
+        }
+
 
         return result;
     }

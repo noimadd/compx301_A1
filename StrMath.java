@@ -1,8 +1,8 @@
 import java.util.Map;
 
 public class StrMath {
-    private static final Map<String, String> sumTable = initSumTable();
-    private static final Map<String, String> multTable = initMultTable();
+    private static final Map<String, String> sumTable = initSumTable(); // init lookup table for single digit sums
+    private static final Map<String, String> multTable = initMultTable(); // init lookup table for single digit products
 
     public static void main(String[] args) {
         String num1 = "9999";
@@ -10,15 +10,17 @@ public class StrMath {
         String sum = StrAdd(num1, num2);
         System.out.println("Sum: " + sum);
 
-        num1 = "9";
-        num2 = "9";
+        num1 = "9999";
+        num2 = "1111";
         String mult = StrMult(num1, num2);
         System.out.println("Product: " + mult);
     }
 
     /**
      * adds two numeric strings and returns their sum as string
-     * non numeric characters are treated as zero
+     * iterates through each digit of both strings
+     * makes use of sumTable to get the sum of two digits 
+     * carries are handled by checking the length of the sum and adding the first digit to the next sum if necessary
      * @param num1 the first numeric string
      * @param num2 the second numeric string
      * @return the sum of num1 and num2 as a string
@@ -26,9 +28,8 @@ public class StrMath {
     public static String StrAdd(String num1, String num2) {
         StringBuilder result = new StringBuilder();
         String carry = "0";
-        int maxLength = Math.max(num1.length(), num2.length()); // finds longest number
+        int maxLength = Math.max(num1.length(), num2.length());
 
-        // replaces non numeric characters with zero
         num1 = stringToInt(num1);
         num2 = stringToInt(num2);
 
@@ -41,8 +42,8 @@ public class StrMath {
             int digit1 = charToInt(num1.charAt(i));
             int digit2 = charToInt(num2.charAt(i));
 
-            String sum = sumTable.get(digit1 + "," + digit2); // gets sum from lookup table
-            String newNum = String.valueOf(sum.charAt(sum.length() - 1)); // last digit of sum
+            String sum = sumTable.get(digit1 + "," + digit2);
+            String newNum = String.valueOf(sum.charAt(sum.length() - 1));
 
             // carry handler
             if (carry.equals("1")) { 
@@ -66,29 +67,55 @@ public class StrMath {
     }
 
 
+    /**
+     * multiplies two numeric strings and returns their product as string
+     * iterates through each digit of num1 and multiplies it with each digit of num2
+     * multTable is used to acquire the product of single digits, and StrAdd is used to handle sums and carries
+     * @param num1 the first numeric string
+     * @param num2 the second numeric string
+     * @return the product of num1 and num2 as a string
+     */
     public static String StrMult(String num1, String num2) {
-        StringBuilder result = new StringBuilder();
+        String result = "0";
         String carry = "0";
         
         num1 = stringToInt(num1);
         num2 = stringToInt(num2);
 
+        // multiplies both numbers from right to left
         for (int i = num1.length() - 1; i >= 0; i--) {
+            int digit1 = charToInt(num1.charAt(i));
+            StringBuilder temp = new StringBuilder();
+
+            // multiplies digit1 with each digit of num2
             for (int j = num2.length() - 1; j >= 0; j--) {
-                int digit1 = charToInt(num1.charAt(i));
                 int digit2 = charToInt(num2.charAt(j));
 
                 String product = multTable.get(digit1 + "," + digit2);
-
-                result.append(product);
+                String withCarry = StrAdd(product, carry);
+                
+                // adds last digit of product to temp and updates carry
+                temp.append(withCarry.charAt(withCarry.length() - 1));
+                carry = (withCarry.length() > 1) ? String.valueOf(withCarry.charAt(0)) : "0";
             }
+
+            // adds carry if exists
+            if (!carry.equals("0")) temp.append(carry);
+
+            // pads temp with zeros based on position on num1
+            temp = temp.reverse();
+            int shift = num1.length() - 1 - i;
+            for (int k = 0; k < shift; k++) { temp.append("0"); }
+
+            // updates the current result by adding new product
+            result = StrAdd(result, temp.toString());
         }
 
-        return result.toString();
+        return result;
     }
 
     /**
-     * initializes the lookup table for sums of single digits
+     * init the lookup table for sums of single digits
      * @return the lookup table
      */
     private static Map<String, String> initSumTable() {
@@ -103,7 +130,7 @@ public class StrMath {
     }
 
     /**
-     * initializes the lookup table for products of single digits
+     * init the lookup table for products of single digits
      * @return the lookup table
      */
     private static Map<String, String> initMultTable() {
@@ -136,6 +163,7 @@ public class StrMath {
     }
 
     /**
+     * checks each character in a string is numeric
      * replaces all non numeric chars with a '0'
      */
     private static String stringToInt(String s) {

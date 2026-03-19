@@ -10,27 +10,27 @@ import java.util.Map;
  * 
  * 
  * @author Damion Sklenars-Clare - 1638052
- * @version 1.0 07/03/2026
+ * @version 1.0.1 20/03/2026
  */
 public class StrMath {
     private static final Map<String, String> sumTable = initSumTable(); // init lookup table for single digit sums
     private static final Map<String, String> multTable = initMultTable(); // init lookup table for single digit products
 
     public static void main(String[] args) {
-        String num1 = "0000100";
-        String num2 = "1";
-        String sum = StrAdd(num1, num2);
-        System.out.println("Sum of " + num1 + " + " + num2 + ": " + sum);
+        String add1 = "";
+        String add2 = "";
+        String sum = StrAdd(add1, add2);
+        System.out.println("Sum of " + add1 + " + " + add2 + ": " + sum);
 
-        num1 = "";
-        num2 = "";
-        String mult = StrMult(num1, num2);
-        System.out.println("Product of " + num1 + " * " + num2 + ": " + mult);
+        String mult1 = "";
+        String mult2 = "";
+        String mult = StrMult(mult1, mult2);
+        System.out.println("Product of " + mult1 + " * " + mult2 + ": " + mult);
 
 
-        String num = "";
-        String fact = StrFact(num);
-        System.out.println("Factorial of " + num + ": " + fact);
+        String fact1 = "";
+        String fact = StrFact(fact1);
+        System.out.println("Factorial of " + fact1 + ": " + fact);
     }
 
     /**

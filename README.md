@@ -4,8 +4,19 @@
 - 1638052
 
 ## Instructions for use
-1. Compile: javac StrMath.java
-2. Run: java StrMath
+1. javac StrMath.java
+2. java StrMath
+
+### How to change values for use
+
+#### StrAdd
+Update the values of the String variables 'add1' and 'add2' in order to change the input values for the String addition operation
+
+#### StrMult
+Update the values of the String variables 'mult1' and 'mult2' in order to change the input values for the String Multiplication operation
+
+### StrFact
+Update the value of the String variable 'Fact1' in order to change the input value for the String Factorial operation
 
 
 ## AI usage overview
